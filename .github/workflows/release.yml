@@ -23,7 +23,7 @@ jobs:
             go.sum
             cmd/dbadminer/go.sum
             tools/go.sum
-      - uses: goreleaser/goreleaser-action@v6
+      - uses: goreleaser/goreleaser-action@v7
         with:
           distribution: goreleaser
           version: "~> v2"
