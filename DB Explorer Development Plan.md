@@ -144,7 +144,7 @@ Everything else stays unexported or under `internal/` until it has proven itself
 
 ### Phase 6: Docs and launch (weeks 8-12)
 
-- [ ] Docs site (GitHub Pages) with install, integration, configuration, security, and dialect guide
+- [x] Docs site (GitHub Pages) with install, integration, configuration, security, and dialect guide — source in `site/`, published to `dbadminer.github.io`
 - [ ] Demo video or GIF; sample app with Docker Compose for all three databases
 - [ ] Post on Hacker News, r/golang, and relevant newsletters
 - [ ] Triage feedback; plan v1.1

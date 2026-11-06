@@ -13,3 +13,6 @@ go.work
 go.work.sum
 dbadminer.db
 web/node_modules
+site/node_modules
+site/build
+site/.svelte-kit

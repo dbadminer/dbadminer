@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import '@fontsource-variable/jetbrains-mono';
+
+@theme {
+	--font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+	--font-sans: 'JetBrains Mono Variable', ui-monospace, monospace;
+	--color-ink: #18181f;
+	--color-ink-soft: #2a2a33;
+	--color-paper: #f4f6f5;
+	--color-paper-deep: #e8eeeb;
+	--color-mist: #d5ddd8;
+	--color-teal: #0f766e;
+	--color-teal-bright: #14b8a6;
+	--color-teal-glow: #2dd4bf;
+	--color-muted: #5c6570;
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		margin: 0;
+		min-height: 100vh;
+		background:
+			radial-gradient(1200px 600px at 12% -10%, rgb(45 212 191 / 18%), transparent 55%),
+			radial-gradient(900px 500px at 88% 8%, rgb(15 118 110 / 12%), transparent 50%),
+			linear-gradient(180deg, var(--color-paper) 0%, #eef2f0 48%, var(--color-paper-deep) 100%);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		font-feature-settings: 'ss01' on, 'cv02' on;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+	}
+
+	code,
+	kbd,
+	pre {
+		font-family: var(--font-mono);
+	}
+}
+
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes drift {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 40px 40px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
