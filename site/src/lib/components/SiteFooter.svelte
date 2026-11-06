@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { site } from '#lib';
+	import { posts, site } from '#lib';
 </script>
 
 <footer class="site-footer">
@@ -9,6 +9,8 @@
 		<a href={site.github} rel="noopener noreferrer" target="_blank">GitHub</a>
 		·
 		<a href={site.docker} rel="noopener noreferrer" target="_blank">Docker Hub</a>
+		·
+		<a href={posts[0].href} rel="noopener noreferrer" target="_blank">Blog</a>
 	</p>
 	<p class="muted">MIT or Apache-2.0 · Built for local databases, not public networks.</p>
 </footer>

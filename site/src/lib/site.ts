@@ -6,8 +6,18 @@ export const site = {
 	url: 'https://dbadminer.github.io',
 	github: 'https://github.com/dbadminer/dbadminer',
 	docker: 'https://hub.docker.com/r/dbadminer/dbadminer',
-	releases: 'https://github.com/dbadminer/dbadminer/releases'
+	releases: 'https://github.com/dbadminer/dbadminer/releases',
+	devto: 'https://dev.to/rp01'
 } as const;
+
+/** Newest first. Add posts here as you publish. */
+export const posts = [
+	{
+		title: "I built a database explorer that can't ruin your Friday",
+		href: 'https://dev.to/rp01/i-built-a-database-explorer-that-cant-ruin-your-friday-hnh',
+		date: '2026'
+	}
+] as const;
 
 export const docsNav = [
 	{ href: '/docs/', label: 'Quick start' },

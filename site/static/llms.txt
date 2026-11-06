@@ -25,3 +25,4 @@ Source: https://github.com/dbadminer/dbadminer
 - [SECURITY.md](https://raw.githubusercontent.com/dbadminer/dbadminer/main/SECURITY.md): Security model and reporting
 - [Releases](https://github.com/dbadminer/dbadminer/releases): Downloadable binaries
 - [Docker Hub](https://hub.docker.com/r/dbadminer/dbadminer): Published container images
+- [Dev.to: can't ruin your Friday](https://dev.to/rp01/i-built-a-database-explorer-that-cant-ruin-your-friday-hnh): Origin story and read-only pitch

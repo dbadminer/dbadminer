@@ -1,1 +1,1 @@
-export { site, docsNav } from './site';
+export { site, posts, docsNav } from './site';

@@ -5,6 +5,7 @@
 	const links = [
 		{ href: '/docs/', label: 'Docs' },
 		{ href: '/docs/install/', label: 'Install' },
+		{ href: '/#writing', label: 'Writing' },
 		{ href: site.github, label: 'GitHub', external: true }
 	] as const;
 
