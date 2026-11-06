@@ -4,8 +4,8 @@ go 1.26.0
 
 require (
 	github.com/dbadminer/dbadminer v0.0.0
-	github.com/spf13/cobra v1.10.1
-	modernc.org/sqlite v1.61.0
+	github.com/spf13/cobra v1.10.2
+	modernc.org/sqlite v1.61.1
 )
 
 require (
