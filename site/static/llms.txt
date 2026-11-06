@@ -1,0 +1,27 @@
+# DBAdminer
+
+> A database explorer for Go. Starts read-only. Download a binary, embed it next to a `*sql.DB`, or pull the Docker image. The library module imports only the Go standard library; `cmd/dbadminer` is a separate module with drivers.
+
+Prefer loopback binding. Do not expose the UI on a public network. Read-only mode is best effort — use a SELECT-only database user (and SQLite `mode=ro`) for real safety. Full access runs with the database user's privileges.
+
+Canonical docs: https://dbadminer.github.io/
+Source: https://github.com/dbadminer/dbadminer
+
+## Docs
+
+- [Quick start](https://dbadminer.github.io/docs/): Choose binary, library embed, or Docker
+- [Install](https://dbadminer.github.io/docs/install/): GitHub Releases binaries and `go run ./cmd/dbadminer`
+- [Library](https://dbadminer.github.io/docs/library/): Embed `github.com/dbadminer/dbadminer` with `New` / `ListenAndServe` / `Handler`
+- [CLI](https://dbadminer.github.io/docs/cli/): DSN resolution order, env vars, and field overrides
+- [Docker](https://dbadminer.github.io/docs/docker/): Image usage, loopback publish, multi-database Compose
+- [Configuration](https://dbadminer.github.io/docs/configuration/): Access mode, flags, and limits
+- [Security](https://dbadminer.github.io/docs/security/): Host/Origin checks, read-only guarantees, reporting
+- [HTTP API](https://dbadminer.github.io/docs/http-api/): Read and write JSON routes
+- [Dialects](https://dbadminer.github.io/docs/dialects/): PostgreSQL, MySQL/MariaDB, SQLite, and `Dialect` extension
+
+## Optional
+
+- [GitHub README](https://raw.githubusercontent.com/dbadminer/dbadminer/main/README.md): Full project README in Markdown
+- [SECURITY.md](https://raw.githubusercontent.com/dbadminer/dbadminer/main/SECURITY.md): Security model and reporting
+- [Releases](https://github.com/dbadminer/dbadminer/releases): Downloadable binaries
+- [Docker Hub](https://hub.docker.com/r/dbadminer/dbadminer): Published container images
