@@ -1,6 +1,12 @@
 # DBAdminer
 
+[![CI](https://github.com/dbadminer/dbadminer/actions/workflows/ci.yml/badge.svg)](https://github.com/dbadminer/dbadminer/actions/workflows/ci.yml)
+[![Go](https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
+[![Release](https://img.shields.io/github/v/release/dbadminer/dbadminer?display_name=tag&logo=github)](https://github.com/dbadminer/dbadminer/releases/latest)
+[![Docker](https://img.shields.io/docker/v/dbadminer/dbadminer?label=docker&logo=docker&logoColor=white&color=0db7ed)](https://hub.docker.com/r/dbadminer/dbadminer)
 [![Docs](https://img.shields.io/badge/docs-dbadminer.github.io-0f766e)](https://dbadminer.github.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Go Reference](https://pkg.go.dev/badge/github.com/dbadminer/dbadminer.svg)](https://pkg.go.dev/github.com/dbadminer/dbadminer)
 
 ![DBAdminer](docs/logo.svg)
 
