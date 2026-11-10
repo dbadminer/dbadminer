@@ -21,7 +21,7 @@
   "devDependencies": {
     "@internationalized/date": "^3.12.4",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^26.6.6",
     "bits-ui": "^2.20.2",
