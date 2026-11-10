@@ -24,10 +24,11 @@
 <section class="hero">
 	<div class="copy">
 		<p class="brand">{site.name}</p>
-		<h1>Browse PostgreSQL, MySQL, and SQLite without leaving your stack.</h1>
+		<h1>Browse PostgreSQL, MySQL, MariaDB, and SQLite without leaving your stack.</h1>
 		<p class="lede">
 			Starts read-only. Ship a binary, embed next to a <code>*sql.DB</code>, or pull the Docker
-			image. The library imports only the Go standard library.
+			image. The library imports only the Go standard library. Listed on the
+			<a href={site.ecohub} rel="noopener noreferrer" target="_blank">MariaDB Ecohub</a>.
 		</p>
 		<div class="ctas">
 			<a class="primary" href="/docs/install/">Install</a>
@@ -126,6 +127,16 @@
 		padding: 0.05em 0.3em;
 		border-radius: 0.3rem;
 		background: rgb(24 24 31 / 6%);
+	}
+
+	.lede a {
+		color: var(--color-teal);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.lede a:hover {
+		text-decoration: underline;
 	}
 
 	.ctas {

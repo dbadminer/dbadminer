@@ -7,7 +7,8 @@ export const site = {
 	github: 'https://github.com/dbadminer/dbadminer',
 	docker: 'https://hub.docker.com/r/dbadminer/dbadminer',
 	releases: 'https://github.com/dbadminer/dbadminer/releases',
-	devto: 'https://dev.to/rp01'
+	devto: 'https://dev.to/rp01',
+	ecohub: 'https://ecohub.mariadb.org/database-management/dbadminer'
 } as const;
 
 /** Newest first. Add posts here as you publish. */

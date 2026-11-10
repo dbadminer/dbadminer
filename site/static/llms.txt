@@ -1,11 +1,12 @@
 # DBAdminer
 
-> A database explorer for Go. Starts read-only. Download a binary, embed it next to a `*sql.DB`, or pull the Docker image. The library module imports only the Go standard library; `cmd/dbadminer` is a separate module with drivers.
+> A database explorer for Go. Supports PostgreSQL, MySQL, MariaDB, and SQLite. Starts read-only. Download a binary, embed it next to a `*sql.DB`, or pull the Docker image. The library module imports only the Go standard library; `cmd/dbadminer` is a separate module with drivers. License: MIT.
 
 Prefer loopback binding. Do not expose the UI on a public network. Read-only mode is best effort — use a SELECT-only database user (and SQLite `mode=ro`) for real safety. Full access runs with the database user's privileges.
 
 Canonical docs: https://dbadminer.github.io/
 Source: https://github.com/dbadminer/dbadminer
+MariaDB Ecohub: https://ecohub.mariadb.org/database-management/dbadminer
 
 ## Docs
 
@@ -25,4 +26,5 @@ Source: https://github.com/dbadminer/dbadminer
 - [SECURITY.md](https://raw.githubusercontent.com/dbadminer/dbadminer/main/SECURITY.md): Security model and reporting
 - [Releases](https://github.com/dbadminer/dbadminer/releases): Downloadable binaries
 - [Docker Hub](https://hub.docker.com/r/dbadminer/dbadminer): Published container images
+- [MariaDB Ecohub](https://ecohub.mariadb.org/database-management/dbadminer): Listed under database management
 - [Dev.to: can't ruin your Friday](https://dev.to/rp01/i-built-a-database-explorer-that-cant-ruin-your-friday-hnh): Origin story and read-only pitch

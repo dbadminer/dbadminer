@@ -10,9 +10,11 @@
 		·
 		<a href={site.docker} rel="noopener noreferrer" target="_blank">Docker Hub</a>
 		·
+		<a href={site.ecohub} rel="noopener noreferrer" target="_blank">MariaDB Ecohub</a>
+		·
 		<a href={posts[0].href} rel="noopener noreferrer" target="_blank">Blog</a>
 	</p>
-	<p class="muted">MIT or Apache-2.0 · Built for local databases, not public networks.</p>
+	<p class="muted">MIT · Built for local databases, not public networks.</p>
 </footer>
 
 <style>
