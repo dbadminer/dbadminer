@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/dbadminer/dbadminer v0.0.0
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/jackc/pgx/v5 v5.12.0
 	modernc.org/sqlite v1.61.1
 )
