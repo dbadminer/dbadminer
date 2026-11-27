@@ -25,7 +25,8 @@
 	<li>Defaults to read-only access; write statements are rejected before they reach the driver.</li>
 	<li>
 		Accepts schema, table, and order names only when they match a live catalog entry, then quotes
-		them. Query values are bound parameters.
+		them. Query values are bound parameters. When <code>Config.Schema</code> is set, create table,
+		create view, foreign keys, and the SQL console stay in that schema.
 	</li>
 	<li>Compares basic-auth credentials in constant time and slows repeated failures.</li>
 	<li>

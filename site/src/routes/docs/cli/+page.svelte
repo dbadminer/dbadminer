@@ -95,9 +95,14 @@
   --schema public</code></pre>
 
 <p>
-	<code>--schema</code> limits the table list to that schema. On PostgreSQL it also sets
-	<code>search_path</code>. <code>--user</code> and <code>--password</code> are basic auth for the
-	page, not the database.
+	<code>--schema</code> limits the catalog to that schema and pins the explorer there. Create
+	table, create view, and foreign-key references use it even when a request names another schema.
+	The SQL console rejects a statement that qualifies a different schema, and rejects
+	<code>USE</code>, <code>ATTACH</code>, <code>DETACH</code>, <code>search_path</code> changes, and
+	<code>CREATE</code>, <code>DROP</code>, or <code>ALTER DATABASE</code> or <code>SCHEMA</code>. On
+	PostgreSQL it also sets <code>search_path</code>, so unqualified SQL uses it. The sidebar and
+	create dialog hide the schema field. <code>--user</code> and <code>--password</code> are basic
+	auth for the page, not the database.
 </p>
 
 <p>More detail lives in the <a href={site.github} rel="noopener noreferrer" target="_blank">README</a>.</p>

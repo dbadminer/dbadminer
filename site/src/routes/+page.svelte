@@ -55,6 +55,7 @@
 		<p>
 			Publish only on loopback, point env vars at your services, and open
 			<code>http://127.0.0.1:8080</code>. Multi-database names become a switcher in the UI.
+			<code>APP_DB_SCHEMA</code> pins that database's explorer to one schema.
 		</p>
 		<p class="more">
 			<a href="/docs/docker/">Full Docker guide</a>

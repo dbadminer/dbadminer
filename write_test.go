@@ -238,3 +238,81 @@ func TestUpdateRowJSONObject(t *testing.T) {
 		t.Fatalf("meta = %#v", rows.Rows[0][1])
 	}
 }
+
+func TestCreateTableIgnoresForeignSchemaWhenLocked(t *testing.T) {
+	db := openMem(t)
+	cfg := DefaultConfig()
+	cfg.Access = AccessFull
+	cfg.Schema = "main"
+	ex, err := New(db, cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := `{"schema":"test","name":"test","columns":[{"name":"id","type":"INTEGER","nullable":false,"primaryKey":true}]}`
+	rr := doRequest(ex.Handler(), http.MethodPost, "/api/tables", strings.NewReader(body), "application/json")
+	if rr.Code != http.StatusOK {
+		t.Fatalf("create %d %s", rr.Code, rr.Body.String())
+	}
+	var result mutateResult
+	decodeJSON(t, rr, &result)
+	if !strings.Contains(result.SQL, `"main"."test"`) || strings.Contains(result.SQL, `"test"."test"`) {
+		t.Fatalf("sql = %s", result.SQL)
+	}
+}
+
+func TestLockedSchemaBlocksOtherDatabases(t *testing.T) {
+	db := openMem(t)
+	execSQL(t, db, `CREATE TABLE keep (id INTEGER PRIMARY KEY)`)
+	cfg := DefaultConfig()
+	cfg.Access = AccessFull
+	cfg.Schema = "main"
+	ex, err := New(db, cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	h := ex.Handler()
+
+	foreign := doRequest(h, http.MethodPost, "/api/query", strings.NewReader(`{"sql":"create table \"test\".\"evil\" (id integer)"}`), "application/json")
+	if foreign.Code != http.StatusForbidden {
+		t.Fatalf("foreign create %d %s", foreign.Code, foreign.Body.String())
+	}
+	readForeign := doRequest(h, http.MethodPost, "/api/query", strings.NewReader(`{"sql":"select * from \"test\".\"keep\""}`), "application/json")
+	if readForeign.Code != http.StatusForbidden {
+		t.Fatalf("foreign read %d %s", readForeign.Code, readForeign.Body.String())
+	}
+	same := doRequest(h, http.MethodPost, "/api/query", strings.NewReader(`{"sql":"select keep.id from keep"}`), "application/json")
+	if same.Code != http.StatusOK {
+		t.Fatalf("same schema %d %s", same.Code, same.Body.String())
+	}
+	created := doRequest(h, http.MethodPost, "/api/query", strings.NewReader(`{"sql":"create table \"main\".\"ok\" (id integer)"}`), "application/json")
+	if created.Code != http.StatusOK {
+		t.Fatalf("pinned create %d %s", created.Code, created.Body.String())
+	}
+
+	view := doRequest(h, http.MethodPost, "/api/views", strings.NewReader(`{"schema":"test","name":"leak","select":"SELECT * FROM \"test\".\"keep\""}`), "application/json")
+	if view.Code != http.StatusForbidden {
+		t.Fatalf("foreign view %d %s", view.Code, view.Body.String())
+	}
+	viewOK := doRequest(h, http.MethodPost, "/api/views", strings.NewReader(`{"schema":"test","name":"v","select":"SELECT 1"}`), "application/json")
+	if viewOK.Code != http.StatusOK {
+		t.Fatalf("pinned view %d %s", viewOK.Code, viewOK.Body.String())
+	}
+	var result mutateResult
+	decodeJSON(t, viewOK, &result)
+	if !strings.Contains(result.SQL, `"main"."v"`) {
+		t.Fatalf("sql = %s", result.SQL)
+	}
+
+	if ex.refSchema("main", "test") != "main" {
+		t.Fatal("ref schema was not pinned")
+	}
+	open := DefaultConfig()
+	open.Access = AccessFull
+	exOpen, err := New(db, open)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if exOpen.refSchema("public", "") != "public" || exOpen.refSchema("public", " other ") != "other" {
+		t.Fatalf("unlocked ref schema")
+	}
+}

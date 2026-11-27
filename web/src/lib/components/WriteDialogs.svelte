@@ -361,11 +361,13 @@
         }}
       >
         {#if dialog.kind === "create-table"}
-          <div class="grid grid-cols-2 gap-2">
-            <label>
-              <span class={labelClass}>Schema</span>
-              <Input class="font-mono text-[12px]" bind:value={schema} spellcheck={false} autocomplete="off" />
-            </label>
+          <div class={app.info?.schema ? "grid" : "grid grid-cols-2 gap-2"}>
+            {#if !app.info?.schema}
+              <label>
+                <span class={labelClass}>Schema</span>
+                <Input class="font-mono text-[12px]" bind:value={schema} spellcheck={false} autocomplete="off" />
+              </label>
+            {/if}
             <label>
               <span class={labelClass}>Name</span>
               <Input class="font-mono text-[12px]" bind:value={name} spellcheck={false} autocomplete="off" required />
@@ -421,11 +423,13 @@
             {/each}
           </div>
         {:else if dialog.kind === "create-view"}
-          <div class="grid grid-cols-2 gap-2">
-            <label>
-              <span class={labelClass}>Schema</span>
-              <Input class="font-mono text-[12px]" bind:value={schema} spellcheck={false} autocomplete="off" />
-            </label>
+          <div class={app.info?.schema ? "grid" : "grid grid-cols-2 gap-2"}>
+            {#if !app.info?.schema}
+              <label>
+                <span class={labelClass}>Schema</span>
+                <Input class="font-mono text-[12px]" bind:value={schema} spellcheck={false} autocomplete="off" />
+              </label>
+            {/if}
             <label>
               <span class={labelClass}>Name</span>
               <Input class="font-mono text-[12px]" bind:value={name} spellcheck={false} autocomplete="off" required />
@@ -508,11 +512,13 @@
               {/each}
             </datalist>
           </label>
-          <div class="grid grid-cols-2 gap-2">
-            <label>
-              <span class={labelClass}>Ref schema</span>
-              <Input class="font-mono text-[12px]" bind:value={refSchema} spellcheck={false} />
-            </label>
+          <div class={app.info?.schema ? "grid" : "grid grid-cols-2 gap-2"}>
+            {#if !app.info?.schema}
+              <label>
+                <span class={labelClass}>Ref schema</span>
+                <Input class="font-mono text-[12px]" bind:value={refSchema} spellcheck={false} />
+              </label>
+            {/if}
             <label>
               <span class={labelClass}>Ref table</span>
               <Input class="font-mono text-[12px]" bind:value={refTable} spellcheck={false} required />

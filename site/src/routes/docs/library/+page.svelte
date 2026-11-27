@@ -39,6 +39,8 @@ cfg.Access = dbadminer.AccessFull // or dbadminer.AccessReadOnly</code></pre>
 <p>
 	Mount <code>ex.Handler()</code> on your own server if you want. Requests whose <code>Host</code>
 	header is not loopback are rejected, and a present <code>Origin</code> must match that host.
+	<code>Config.Schema</code>, when set, hides every other schema and keeps creates, foreign keys, and
+	the SQL console inside it.
 </p>
 
 <h2>Examples</h2>

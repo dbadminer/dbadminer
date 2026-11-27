@@ -11,6 +11,7 @@ Please report vulnerabilities privately to the repository maintainers. Do not op
 - Listens on a loopback address by default. `0.0.0.0` and `::` are also accepted so a container can receive connections that Docker forwards. A specific public address is refused. Requests whose `Host` is not loopback are rejected. A request `Origin`, when present, must match that host.
 - Defaults to read-only access. `Access` (`readonly` or `full`), `--access`, `--readonly`, and `DBADMINER_ACCESS` select the other mode. In read-only mode, write statements are rejected before they reach the driver, and PostgreSQL, MySQL, and MariaDB also run explorer statements inside a read-only transaction. Full access uses the database user's privileges.
 - Accepts schema, table, and order names only when they match a live catalog entry, then quotes them. Query values are bound parameters.
+- When `Config.Schema` or `--schema` is set, the catalog, create table, create view, and foreign keys stay in that schema. The SQL console rejects a statement that qualifies another schema, and rejects `USE`, `ATTACH`, `DETACH`, `search_path` changes, and `CREATE`, `DROP`, or `ALTER DATABASE` or `SCHEMA`.
 - Compares basic-auth credentials in constant time and slows repeated failures.
 - Sets `Content-Security-Policy: default-src 'self'`, `X-Content-Type-Options: nosniff`, and `Referrer-Policy: no-referrer`.
 - Caps request bodies, row counts, query time, and encoded response size.
