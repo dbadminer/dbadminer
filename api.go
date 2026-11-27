@@ -331,6 +331,10 @@ func (e *Explorer) handleQuery(w http.ResponseWriter, r *http.Request) {
 		e.fail(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	if err := guard.SchemaSQL(req.SQL, e.cfg.Schema); err != nil {
+		e.fail(w, http.StatusForbidden, err.Error())
+		return
+	}
 
 	var payload rowsPayload
 	err := e.withQueryer(r.Context(), func(ctx context.Context, q queryer) error {

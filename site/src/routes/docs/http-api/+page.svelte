@@ -48,7 +48,9 @@
 <h2>Write routes</h2>
 <p>
 	Write routes require full access (<code>DBADMINER_ACCESS=full</code>). They return 403 while
-	read-only.
+	read-only. When a schema is configured, create table and create view ignore a body schema, foreign
+	keys reference that schema, and <code>POST /api/query</code> returns 403 for a statement that
+	leaves it.
 </p>
 <ul>
 	<li><code>POST /api/tables</code> create table</li>

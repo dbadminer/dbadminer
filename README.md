@@ -69,7 +69,7 @@ dbadminer \
   --schema public
 ```
 
-`--schema` limits the table list to that schema. On PostgreSQL it also sets `search_path`, so unqualified SQL uses it. The name must be a letter or underscore followed by letters, digits, or underscores. `--user` and `--password` are still basic auth for the page, not the database.
+`--schema` limits the catalog to that schema and pins the explorer there. Create table, create view, and foreign-key references use that schema even when the request names another one. The SQL console rejects a statement that qualifies a different schema, and rejects `USE`, `ATTACH`, `DETACH`, `search_path` changes, and `CREATE`, `DROP`, or `ALTER DATABASE` or `SCHEMA`. On PostgreSQL it also sets `search_path`, so unqualified SQL uses it. The sidebar and create dialog hide the schema field. The name must be a letter or underscore followed by letters, digits, or underscores. `--user` and `--password` are still basic auth for the page, not the database.
 
 ## Read-only and full access
 
@@ -111,7 +111,7 @@ Setting `ReadOnly` to false on that configured value still selects full access. 
 
 Mount `ex.Handler()` on your own server if you want. Requests whose `Host` header is not loopback are rejected, and a present `Origin` must match that host.
 
-Flags accepted by `Flags` and `Run`: `--addr`, `--access`, `--readonly`, `--user`, `--password`, `--max-rows`, `--query-timeout`, `--max-body`, `--max-response`. Access is described above. `cmd/dbadminer` also accepts `--dsn`, `--db-host`, `--db-port`, `--db-user`, `--db-password`, `--db-name`, and `--schema`. `DBADMINER_DATABASES` names more than one database; each name prefixes those variables, as in the Docker section. `--user` and `--password` are basic auth for the page. They are never taken from the database password. `Config.Schema` hides every other schema for a pool you already opened.
+Flags accepted by `Flags` and `Run`: `--addr`, `--access`, `--readonly`, `--user`, `--password`, `--max-rows`, `--query-timeout`, `--max-body`, `--max-response`. Access is described above. `cmd/dbadminer` also accepts `--dsn`, `--db-host`, `--db-port`, `--db-user`, `--db-password`, `--db-name`, and `--schema`. `DBADMINER_DATABASES` names more than one database; each name prefixes those variables, as in the Docker section. `--user` and `--password` are basic auth for the page. They are never taken from the database password. `Config.Schema` pins that pool to one schema, the same way `--schema` does.
 
 `examples/http`, `examples/chi`, and `examples/cobra` show how to mount the handler.
 
@@ -191,7 +191,7 @@ Open http://127.0.0.1:8090 for the demo app and http://127.0.0.1:8080 for DBAdmi
 - `GET /api/tables/{schema}/{table}/rows?limit&offset&order&dir&count=1`
 - `POST /api/query` with `{"sql":"select 1"}` and `Content-Type: application/json`
 
-Write routes require full access (`DBADMINER_ACCESS=full`). They return 403 while read-only. The same paths exist under `/api/databases/{name}/…`.
+Write routes require full access (`DBADMINER_ACCESS=full`). They return 403 while read-only. The same paths exist under `/api/databases/{name}/…`. When `Config.Schema` is set, create table and create view ignore a body schema, foreign keys reference that schema, and `POST /api/query` returns 403 for a statement that leaves it.
 
 - `POST /api/tables` create table (`schema`, `name`, `columns`)
 - `POST /api/views` create view (`schema`, `name`, `select`)
@@ -207,7 +207,7 @@ Write routes require full access (`DBADMINER_ACCESS=full`). They return 403 whil
 
 ## Safety
 
-Read-only mode is best effort. Use a database user that only has `SELECT`, and open SQLite with `mode=ro`. DBAdminer also rejects non-read statements, uses a read-only transaction on PostgreSQL, MySQL, and MariaDB, and quotes identifiers only after a catalog match. Full access adds no privileges of its own: statements and structured writes run as the database user. The `/query` endpoint still accepts one statement per request. Details are in [SECURITY.md](SECURITY.md).
+Read-only mode is best effort. Use a database user that only has `SELECT`, and open SQLite with `mode=ro`. DBAdminer also rejects non-read statements, uses a read-only transaction on PostgreSQL, MySQL, and MariaDB, and quotes identifiers only after a catalog match. Full access adds no privileges of its own: statements and structured writes run as the database user. The `/query` endpoint still accepts one statement per request. A configured schema rejects statements that leave it. Details are in [SECURITY.md](SECURITY.md).
 
 ## Tests
 

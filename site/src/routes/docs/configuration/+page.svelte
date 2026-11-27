@@ -44,8 +44,8 @@ DBADMINER_ACCESS=full</code></pre>
 </p>
 <p>
 	<code>--user</code> and <code>--password</code> are basic auth for the page. They are never taken
-	from the database password. <code>Config.Schema</code> hides every other schema for a pool you
-	already opened.
+	from the database password. <code>Config.Schema</code> pins that pool to one schema, the same way
+	<code>--schema</code> does: the catalog, create dialogs, foreign keys, and SQL console stay there.
 </p>
 
 <h2>Limits</h2>

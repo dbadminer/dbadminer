@@ -19,6 +19,7 @@
   let query = $state("");
   const collapsed = new SvelteSet<string>();
   const collapsedRoutines = new SvelteSet<string>();
+  const schemaLocked = $derived(Boolean(app.info?.schema));
 
   const groups = $derived.by(() => {
     const q = query.trim().toLowerCase();
@@ -197,7 +198,6 @@
       </p>
     {:else}
       {#each groups as group (group.schema)}
-        {@const schemaLocked = Boolean(app.info?.schema)}
         {@const open = schemaLocked || query !== "" || !collapsed.has(group.schema)}
         {@const routinesOpen = query !== "" || !collapsedRoutines.has(group.schema)}
         <div class="mb-1">
@@ -227,7 +227,8 @@
                     onclick={() => app.selectTable(t)}
                     aria-current={active ? "true" : undefined}
                     class={cn(
-                      "group flex h-6.5 w-full cursor-pointer items-center gap-2 rounded pr-2 pl-5 text-left font-mono text-[12px] transition-colors",
+                      "group flex h-6.5 w-full cursor-pointer items-center gap-2 rounded pr-2 text-left font-mono text-[12px] transition-colors",
+                      schemaLocked ? "pl-1" : "pl-5",
                       active ? "bg-primary/10 text-primary" : "text-foreground/85 hover:bg-surface-2",
                     )}
                   >
@@ -250,7 +251,10 @@
                 type="button"
                 onclick={() => toggleRoutines(group.schema)}
                 aria-expanded={routinesOpen}
-                class="mt-1 flex h-6 w-full cursor-pointer items-center gap-1 rounded px-1 pl-5 text-[11px] font-medium text-muted-foreground hover:text-foreground"
+                class={cn(
+                  "mt-1 flex h-6 w-full cursor-pointer items-center gap-1 rounded px-1 text-[11px] font-medium text-muted-foreground hover:text-foreground",
+                  schemaLocked ? "pl-1" : "pl-5",
+                )}
               >
                 <ChevronRight class={cn("size-3 transition-transform", routinesOpen && "rotate-90")} />
                 <Code2 class="size-3.5" />
@@ -270,7 +274,8 @@
                         onclick={() => app.selectRoutine(r)}
                         aria-current={active ? "true" : undefined}
                         class={cn(
-                          "group flex h-6.5 w-full cursor-pointer items-center gap-2 rounded pr-2 pl-8 text-left font-mono text-[12px] transition-colors",
+                          "group flex h-6.5 w-full cursor-pointer items-center gap-2 rounded pr-2 text-left font-mono text-[12px] transition-colors",
+                          schemaLocked ? "pl-5" : "pl-8",
                           active
                             ? "bg-primary/10 text-primary"
                             : "text-foreground/85 hover:bg-surface-2",

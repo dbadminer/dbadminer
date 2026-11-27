@@ -59,6 +59,75 @@ func TestIsReadOnlySQL(t *testing.T) {
 	}
 }
 
+func TestSchemaSQL(t *testing.T) {
+	allow := []string{
+		"select 1",
+		"select * from users",
+		"select users.id from users",
+		"select * from main.users",
+		"select * from main.users u where u.id = 1",
+		"select * from users u join posts p on u.id = p.user_id",
+		"select * from users, posts",
+		"select * from users u, posts p",
+		"select * from (select * from main.users) s",
+		"select * from users for update",
+		"create table users (id integer)",
+		"create table if not exists main.users (id integer)",
+		`create table "main"."users" (id integer)`,
+		"create table `main`.`users` (id integer)",
+		"insert into users values (1)",
+		"insert into main.users values (1)",
+		"update users set name = 'a'",
+		"create view v as select * from users",
+		"create view main.v as select * from main.users",
+		"create index i on main.users (id)",
+		"alter table main.users add constraint fk foreign key (id) references main.parent (id)",
+		"select * from users where name = 'test.evil'",
+		"select * from users -- from test.evil\n",
+		"set names utf8",
+		"extract(year from created_at)",
+	}
+	deny := []string{
+		"create table test.users (id integer)",
+		"create table `test`.`users` (id int)",
+		`create table "test"."users" (id integer)`,
+		"select * from test.users",
+		"select * from users u join test.posts p on u.id = p.user_id",
+		"select * from users, test.posts",
+		"select * from (select * from test.users) s",
+		"insert into test.users values (1)",
+		"update test.users set a = 1",
+		"delete from test.users",
+		"drop table test.users",
+		"alter table test.users add column a int",
+		"create view main.v as select * from test.users",
+		"select test.users.email",
+		"use test",
+		"use main",
+		"attach database 'x' as other",
+		"create database test",
+		"drop schema other",
+		"set search_path to other",
+		"create index i on test.users (id)",
+		"alter table main.users add constraint fk foreign key (id) references test.parent (id)",
+		"rename table users to test.users",
+		"select 1 /*! from test.users */",
+	}
+	for _, sql := range allow {
+		if err := SchemaSQL(sql, "main"); err != nil {
+			t.Errorf("SchemaSQL(%q) = %v", sql, err)
+		}
+	}
+	for _, sql := range deny {
+		if err := SchemaSQL(sql, "main"); err == nil {
+			t.Errorf("SchemaSQL(%q) allowed", sql)
+		}
+	}
+	if err := SchemaSQL("create table test.users (id integer)", ""); err != nil {
+		t.Errorf("empty schema: %v", err)
+	}
+}
+
 func TestReturnsRows(t *testing.T) {
 	cases := []struct {
 		sql string

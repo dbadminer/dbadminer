@@ -129,6 +129,10 @@ func (e *Explorer) handleCreateView(w http.ResponseWriter, r *http.Request) {
 		e.fail(w, http.StatusBadRequest, msg)
 		return
 	}
+	if err := guard.SchemaSQL(req.Select, e.cfg.Schema); err != nil {
+		e.fail(w, http.StatusForbidden, err.Error())
+		return
+	}
 	sqlText, err := createViewSQL(e.dialect, req.Schema, req.Name, req.Select)
 	if err != nil {
 		e.failErr(w, err)
@@ -283,9 +287,7 @@ func (e *Explorer) handleCreateForeignKey(w http.ResponseWriter, r *http.Request
 	if !e.decodeJSONBody(w, r, &req) {
 		return
 	}
-	if req.RefSchema == "" {
-		req.RefSchema = schema
-	}
+	req.RefSchema = e.refSchema(schema, req.RefSchema)
 	sqlText, err := createForeignKeySQL(e.dialect, schema, table, req)
 	if err != nil {
 		e.failErr(w, err)
@@ -470,10 +472,20 @@ func (e *Explorer) writeSchema(given string) string {
 	if e.cfg.Schema != "" {
 		return e.cfg.Schema
 	}
-	if strings.TrimSpace(given) != "" {
+	given = strings.TrimSpace(given)
+	if given != "" {
 		return given
 	}
 	return e.defaultSchema()
+}
+
+// refSchema is the schema a foreign key points at. A configured Schema wins.
+// Otherwise an empty value means the table's own schema.
+func (e *Explorer) refSchema(tableSchema, given string) string {
+	if e.cfg.Schema != "" || strings.TrimSpace(given) != "" {
+		return e.writeSchema(given)
+	}
+	return tableSchema
 }
 
 func (e *Explorer) defaultSchema() string {
