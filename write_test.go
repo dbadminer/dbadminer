@@ -238,3 +238,24 @@ func TestUpdateRowJSONObject(t *testing.T) {
 		t.Fatalf("meta = %#v", rows.Rows[0][1])
 	}
 }
+
+func TestCreateTableIgnoresForeignSchemaWhenLocked(t *testing.T) {
+	db := openMem(t)
+	cfg := DefaultConfig()
+	cfg.Access = AccessFull
+	cfg.Schema = "main"
+	ex, err := New(db, cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := `{"schema":"test","name":"test","columns":[{"name":"id","type":"INTEGER","nullable":false,"primaryKey":true}]}`
+	rr := doRequest(ex.Handler(), http.MethodPost, "/api/tables", strings.NewReader(body), "application/json")
+	if rr.Code != http.StatusOK {
+		t.Fatalf("create %d %s", rr.Code, rr.Body.String())
+	}
+	var result mutateResult
+	decodeJSON(t, rr, &result)
+	if !strings.Contains(result.SQL, `"main"."test"`) || strings.Contains(result.SQL, `"test"."test"`) {
+		t.Fatalf("sql = %s", result.SQL)
+	}
+}

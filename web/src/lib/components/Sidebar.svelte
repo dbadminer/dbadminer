@@ -197,22 +197,25 @@
       </p>
     {:else}
       {#each groups as group (group.schema)}
-        {@const open = query !== "" || !collapsed.has(group.schema)}
+        {@const schemaLocked = Boolean(app.info?.schema)}
+        {@const open = schemaLocked || query !== "" || !collapsed.has(group.schema)}
         {@const routinesOpen = query !== "" || !collapsedRoutines.has(group.schema)}
         <div class="mb-1">
-          <button
-            type="button"
-            onclick={() => toggle(group.schema)}
-            aria-expanded={open}
-            class="flex h-6 w-full cursor-pointer items-center gap-1 rounded px-1 text-[11.5px] font-medium text-muted-foreground hover:text-foreground"
-          >
-            <ChevronRight class={cn("size-3 transition-transform", open && "rotate-90")} />
-            <Folder class="size-3.5" />
-            <span class="truncate">{group.schema}</span>
-            <span class="ml-auto font-mono text-[10.5px]"
-              >{group.tables.length + group.routines.length}</span
+          {#if !schemaLocked}
+            <button
+              type="button"
+              onclick={() => toggle(group.schema)}
+              aria-expanded={open}
+              class="flex h-6 w-full cursor-pointer items-center gap-1 rounded px-1 text-[11.5px] font-medium text-muted-foreground hover:text-foreground"
             >
-          </button>
+              <ChevronRight class={cn("size-3 transition-transform", open && "rotate-90")} />
+              <Folder class="size-3.5" />
+              <span class="truncate">{group.schema}</span>
+              <span class="ml-auto font-mono text-[10.5px]"
+                >{group.tables.length + group.routines.length}</span
+              >
+            </button>
+          {/if}
           {#if open}
             <ul class="mt-0.5">
               {#each group.tables as t (tableKey(t))}
